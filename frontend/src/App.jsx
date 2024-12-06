@@ -6,18 +6,18 @@ import SignUpPage from './pages/SignUpPage'
 import LoginPage from './pages/LoginPage'
 import SettingsPage from './pages/SettingsPage'
 import ProfilePage from './pages/ProfilePage'
-import { use } from 'react'
+// import { use } from 'react'
 import { useAuthStore } from './store/useAuthStore'
 import { Loader } from 'lucide-react'
 
 const App = () => {
-  const {authUser, checkAuth, isCheckingAuth} = useAuthStore()
+  const { authUser, checkAuth, isCheckingAuth } = useAuthStore()
 
   useEffect(() => {
     checkAuth()
   }, [checkAuth]);
 
-  console.log({authUser})
+  console.log({ authUser })
 
   if (isCheckingAuth && !authUser)
     return (
@@ -29,7 +29,7 @@ const App = () => {
     <div>
       <Navbar />
       <Routes>
-        <Route path="/" element={authUser ? <HomePage />: <Navigate to="/login" />} />
+        <Route path="/" element={authUser ? <HomePage /> : <Navigate to="/login" />} />
         <Route path="/signup" element={!authUser ? <SignUpPage /> : <Navigate to="/" />} />
         <Route path="/login" element={!authUser ? <LoginPage /> : <Navigate to="/" />} />
         <Route path="/settings" element={<SettingsPage />} />
