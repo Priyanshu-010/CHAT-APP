@@ -13,8 +13,8 @@ const ChatContainer = () => {
     getMessages,
     isMessagesLoading,
     selectedUser,
-    // subscribeToMessages,
-    // unsubscribeFromMessages,
+    subscribeToMessages,
+    unsubscribeFromMessages,
   } = useChatStore();
   const { authUser } = useAuthStore();
   const messageEndRef = useRef(null);
@@ -22,20 +22,22 @@ const ChatContainer = () => {
   useEffect(() => {
     getMessages(selectedUser._id);
 
-    // subscribeToMessages();
+    subscribeToMessages();
 
-    // return () => unsubscribeFromMessages();
-  }, [selectedUser._id, getMessages]);
+    return () => unsubscribeFromMessages();
+  }, [selectedUser._id, getMessages, subscribeToMessages, unsubscribeFromMessages]);
 
   useEffect(() => {
-    getMessages(selectedUser._id);
-  }, [selectedUser._id, getMessages]);
+    if (messageEndRef.current && messages) {
+      messageEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages]);
 
   if (isMessagesLoading) {
     return (
       <div className="flex-1 flex flex-col overflow-auto">
         <ChatHeader />
-        <MessageSkeleton /> 
+        <MessageSkeleton />
         <MessageInput />
       </div>
     );
@@ -65,7 +67,6 @@ const ChatContainer = () => {
             </div>
             <div className="chat-header mb-1">
               <time className="text-xs opacity-50 ml-1">
-                {/* {message.createdAt} */}
                 {formatMessageTime(message.createdAt)}
               </time>
             </div>

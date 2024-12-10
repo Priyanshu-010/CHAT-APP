@@ -15,14 +15,15 @@ import { Loader } from 'lucide-react'
 import { Toaster } from 'react-hot-toast'
 
 const App = () => {
-  const { authUser, checkAuth, isCheckingAuth } = useAuthStore()
+  const { authUser, checkAuth, isCheckingAuth, onlineUsers } = useAuthStore()
   const { theme } = useThemeStore()
   useEffect(() => {
     checkAuth()
   }, [checkAuth]);
 
   console.log({ authUser })
-
+  console.log({ onlineUsers })
+  
   if (isCheckingAuth && !authUser)
     return (
       <div className="flex items-center justify-center h-screen">
